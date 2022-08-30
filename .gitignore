@@ -1,3 +1,6 @@
+#"Data base"
+baza_user
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
