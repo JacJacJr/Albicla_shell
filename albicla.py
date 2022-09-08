@@ -2,14 +2,14 @@ import json
 import datetime
 
 data_base = "user_data_base"
-def read_base():
+def read_data_base():
 	file = open(data_base,"r")
 	data = file.read()
 	data = json.loads(data)
 	return data
 
-def save_base(email, password):
-	file_content = read_base()
+def save_data_base(email, password):
+	file_content = read_data_base()
 	file_content["users"].append({ "email": email, "password": password }) 
 	content_as_json = json.dumps(file_content)
 	file = open(data_base, 'w')
@@ -32,48 +32,48 @@ def check_passwords():
 	password = input("\nEnter your password: Min. 8 characters ")
 	while len(password) < 8:
 		password = input("\nPassword is too short! Try again: ")
-	password2 = input("\nEnter password again: ")
-	while password != password2:
+	password_conf = input("\nEnter password again: ")
+	while password != password_conf:
 			print("\nPassword incorrect! Try again: ")
 			password = input("\nEnter your password: ")
-			password2 = input("\nEnter password again: ")
+			password_conf = input("\nEnter password again: ")
 	return password
 
 def registration():
 	email = input("Enter your email: ")
-	users = read_base()["users"]
+	users = read_data_base()["users"]
 	if check_email_presence(email, users) == True:
 		return False
 	password = check_passwords()
-	save_base(email, password)
+	save_data_base(email, password)
 
 def login():
 	email = input("\nEnter your email: ")
 	password = input("\nEnter your password: ")
-	users = read_base()["users"]
-	turn =1
+	users = read_data_base()["users"]
+	attempt = 0
 	validated_email = check_email_presence(email,users)
 	is_password_valid = check_password_presence(password, users)
 	while not(validated_email and is_password_valid):
-		turn += 1
-		password = input("\nPassword incorrect! Try again ")
+		attempt += 1
+		password = input("\nPassword incorrect! Try again: ")
 		if turn>1:
-			print("\nLogin details incorrect! I'm calling the police!")
+			print("\nLogin details incorrect! I'm calling the police!\n")
 			return False
 	print(f"\nHello {validated_email} !\n")
 	return email
 
-def generat_id():
+def generate_id():
 	now = datetime.datetime.now()
 	id = json.dumps(now.strftime('%H:%M, %d.%m.%y'))
 	return id
 
 def add_post(email, post, id):
-	if not email :
-		print('\nYou have not logged in yet!')
+	if not email:
+		print('\nYou have not logged in yet!\n')
 		return 
-	file_content = read_base()
-	file_content["posts"].append({ "email": email, "id": id, "post": post }) 
+	file_content = read_data_base()
+	file_content["posts"].append({ "email": email, "id": id, "post": post}) 
 	content_as_json = json.dumps(file_content)
 	file = open(data_base, 'w')
 	file.write(content_as_json)
@@ -81,41 +81,41 @@ def add_post(email, post, id):
 	return True
 
 def new_post(email):
-	if not email :
-		print('\nYou have not logged in yet!')
+	if not email:
+		print('\nYou have not logged in yet!\n')
 		return 
-	post = input("\nWrite your post! MAx. 100 characters")
+	post = input("\nWrite your post! Max. 100 characters:\n")
 	if len(post)<=100:
-		id = generat_id()
+		id = generate_id()
 		add_post(email, post, id)
 	else: 
-		print("\nPost is too long!")
+		print("\nPost is too long!\n")
 
 def show_post(email):
-	if not email :
-		print('\nYou have not logged in yet!')
+	if not email:
+		print('\nYou have not logged in yet!\n')
 		return 
-	base = read_base()
+	base = read_data_base()
 	all_posts = base["posts"]
 	for post in all_posts:
 		if email == post.get('email'):
-			print(f'{post.get("post")}, {post.get("id")}')
+			print(f'\n{post.get("post")}, {post.get("id")}')
 
 def show_wall(email):
-	if not email :
-		print('\nYou have not logged in yet!')
+	if not email:
+		print('\nYou have not logged in yet!\n')
 		return 
-	base = read_base()
+	base = read_data_base()
 	all_posts = base["posts"]
 	for post in all_posts:
 		if email != post.get('email'):
-			print(f'{post.get("post")}, {post.get("id")}')
+			print(f'\n{post.get("post")}, {post.get("id")}')
 
 def log_out(email):
-	if not email :
-		print('\nYou have not logged in yet!')
+	if not email:
+		print('\nYou have not logged in yet!\n')
 		return 
-	else :
+	else:
 		email == False
 		return email
 
