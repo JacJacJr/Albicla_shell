@@ -43,7 +43,7 @@ def registration():
 	email = input("Enter your email: ")
 	users = read_data_base()["users"]
 	if check_email_presence(email, users) == True:
-		return False
+		return print('Invalid data!')
 	password = check_passwords()
 	save_data_base(email, password)
 
@@ -57,7 +57,7 @@ def login():
 	while not(validated_email and is_password_valid):
 		attempt += 1
 		password = input("\nPassword incorrect! Try again: ")
-		if turn>1:
+		if attempt>1:
 			print("\nLogin details incorrect! I'm calling the police!\n")
 			return False
 	print(f"\nHello {validated_email} !\n")
