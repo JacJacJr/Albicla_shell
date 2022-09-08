@@ -1,8 +1,9 @@
 import json
 import datetime
 
+data_base = "user_data_base"
 def read_base():
-	file = open("baza_user","r")
+	file = open(data_base,"r")
 	data = file.read()
 	data = json.loads(data)
 	return data
@@ -11,7 +12,7 @@ def save_base(email, password):
 	file_content = read_base()
 	file_content["users"].append({ "email": email, "password": password }) 
 	content_as_json = json.dumps(file_content)
-	file = open('baza_user', 'w')
+	file = open(data_base, 'w')
 	file.write(content_as_json)
 	file.close()
 
@@ -74,7 +75,7 @@ def add_post(email, post, id):
 	file_content = read_base()
 	file_content["posts"].append({ "email": email, "id": id, "post": post }) 
 	content_as_json = json.dumps(file_content)
-	file = open('baza_user', 'w')
+	file = open(data_base, 'w')
 	file.write(content_as_json)
 	file.close()
 	return True

@@ -8,7 +8,7 @@ The first shell application model with the functionalities of the a'la social ne
 * [Ideas fo future](#Ideas-for-future)
 
 ## General info
-That's another boot camp project. That's the summery of python functions, and the base for the first framework project in FLASK
+That's another boot camp project. That's the summary of python functions, and the base for the first framework project in FLASK
 
 ### Functionalities
 * Registration
